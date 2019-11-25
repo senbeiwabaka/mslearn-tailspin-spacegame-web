@@ -17,6 +17,11 @@ variables:
   dotnetSdkVersion: '2.1.505'
 
 steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Install .NET Core SDK $(dotnetSdkVersion)'
+  inputs:
+    version: '$(dotnetSdkVersion)'
+
 - task: UseDotNet@2
   displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
   inputs:
@@ -36,7 +41,7 @@ steps:
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
-  workingDirectory: Tailspin.SpaceGame.Web/wwwroot
+  workingDirectory: $(wwwrootDir)
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
