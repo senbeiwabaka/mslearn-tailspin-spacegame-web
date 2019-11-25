@@ -1,10 +1,24 @@
+<<<<<<< HEAD
+=======
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+>>>>>>> master
 trigger:
 - '*'
 
 pool:
+<<<<<<< HEAD
   vmImage: 'ubuntu-16.04'
   demands:
     - npm
+=======
+  vmImage: 'ubuntu-latest'
+  demands:
+  - npm
+>>>>>>> master
 
 variables:
   buildConfiguration: 'Release'
@@ -13,8 +27,19 @@ variables:
 
 steps:
 - task: DotNetCoreInstaller@0
+<<<<<<< HEAD
   displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
   inputs:
+=======
+  displayName: 'Install .NET Core SDK $(dotnetSdkVersion)'
+  inputs:
+    version: '$(dotnetSdkVersion)'
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
+  inputs:
+    packageType: sdk
+>>>>>>> master
     version: '$(dotnetSdkVersion)'
 
 - task: Npm@1
@@ -38,6 +63,7 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
+<<<<<<< HEAD
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - $(buildConfiguration)'
   inputs:
@@ -82,3 +108,16 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
+=======
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Debug'
+
+- template: templates/build.yml
+  parameters:
+    buildConfiguration: 'Release'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
+>>>>>>> master
